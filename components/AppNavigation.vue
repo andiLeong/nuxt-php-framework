@@ -2,7 +2,6 @@
 
     <div class="bg-white border-b border-gray-300">
         <nav class="max-w-7xl mx-auto ">
-
             <ul class="flex items-center justify-center space-x-5 py-6 ">
                 <li class="text-stone-500 text-xl capitalize">
                     <NuxtLink :to="{name:'index'}">home</NuxtLink>
