@@ -9,9 +9,9 @@
             <div>
                 <p class="text-sm text-gray-700">
                     Showing
-                    <span class="font-medium">1</span>
+                    <span class="font-medium">{{ items.from }}</span>
                     to
-                    <span class="font-medium">10</span>
+                    <span class="font-medium">{{ items.to }}</span>
                     of
                     <span class="font-medium"> {{ items.total }}</span>
                     results
@@ -35,7 +35,7 @@
                     <a
                         v-for="(link,index) in items.links"
                         :key="index"
-                        @click.prevent="refresh(link.label)"
+                        @click.prevent="refresh(link.page)"
                         href="#"
                         class="relative inline-flex items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20"
                         :class="link.active ? 'z-10 bg-sky-50 border-sky-500 text-sky-600' : '' "
