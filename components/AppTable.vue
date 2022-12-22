@@ -24,7 +24,12 @@
                         :class="index === 0 ? 'pl-4 pr-3 font-medium text-gray-900 sm:pl-6' : '' "
 
                     >
-                        {{ item[col] }}
+                        <template v-if="  !('type' in col) || col.type === 'text' ">
+                            {{ item[col.name] }}
+                        </template>
+                        <template v-if="col.type === 'image'">
+                            <img :src="item[col.name]" :alt="item[col.name]" class="h-10 w-10 rounded-full">
+                        </template>
                     </td>
                     <!--                    <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">-->
                     <!--                        <a href="#" class="text-indigo-600 hover:text-indigo-900"-->
