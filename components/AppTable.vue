@@ -31,11 +31,35 @@
                             <img :src="item[col.name]" :alt="item[col.name]" class="h-10 w-10 rounded-full">
                         </template>
                     </td>
-                    <!--                    <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">-->
-                    <!--                        <a href="#" class="text-indigo-600 hover:text-indigo-900"-->
-                    <!--                        >Edit<span class="sr-only">, {{ person.name }}</span></a-->
-                    <!--                        >-->
-                    <!--                    </td>-->
+
+                    <td v-for="(action,index) in actions"
+                        :key="index"
+                        class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"
+                    >
+                        <template v-if="action.type === 'button' ">
+                            <button
+                                @click="$emit(action.name,item)"
+                                class="bg-sky-500 text-white px-3 py-1.5 rounded-md "
+                            >
+                                {{ action.name }}
+                            </button>
+                        </template>
+
+                        <template v-if="action.type === 'link' ">
+                            <template v-if="action.external">
+                                <a :href="action.to" class="text-sky-600 hover:text-sky-900">{{ action.name }}</a>
+                            </template>
+                            <template v-else>
+                                <NuxtLink
+                                    :to="generateInternalLink(action.to,item)"
+                                    class="text-sky-600 hover:text-sky-900"
+                                >
+                                    {{ action.name }}
+                                </NuxtLink>
+                            </template>
+                        </template>
+                    </td>
+
                 </tr>
                 </tbody>
             </table>
@@ -45,8 +69,30 @@
 
 <script setup>
 
-const props = defineProps(['tableHead', 'items', 'columns']);
+const props = defineProps(['tableHead', 'items', 'columns', 'actions']);
 
+function generateInternalLink(to, item) {
+
+    let res = to.match(/{(\w|-)+}/g);
+    if (res === null) {
+        return to;
+    }
+
+    let segmentsValues = res.map((segment) => {
+        segment = segment.replace('{', '').replace('}', '')
+        if (segment in item) {
+            return item[segment]
+        }
+
+        throw new Error('segment ' + segment + ' is not found inside the item');
+    })
+
+    let cnt = 0;
+    return to.replace(/{(\w|-)+}/g, function ($0) {
+        if (cnt === segmentsValues.length) cnt = 0;
+        return segmentsValues[cnt++];
+    });
+}
 </script>
 
 <style scoped>
