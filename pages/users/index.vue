@@ -25,7 +25,7 @@
                             :items="users.data"
                             :columns="columns"
                             :actions="actions"
-                            @edit="buttonEvent"
+                            @edit="goToEdit"
                         >
 
                         </AppTable>
@@ -71,10 +71,8 @@ const actions = [
     {name: 'edit', type: 'button'},
 ];
 
-function buttonEvent(item){
-
-    console.log('button event from table')
-    console.log(item)
+function goToEdit(item){
+    router.push({ name: 'users-edit-id', params: { id: item.id } })
 }
 // const { data: users ,error } = await useFetch('http://localhost:8080/user')
 // const {data: users , error} = useLazyFetch('http://localhost:8000/user');

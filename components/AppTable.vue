@@ -32,7 +32,7 @@
                         </template>
                     </td>
 
-                    <td v-for="(action,index) in actions"
+                    <td v-if="actions" v-for="(action,index) in actions"
                         :key="index"
                         class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"
                     >
@@ -69,7 +69,24 @@
 
 <script setup>
 
-const props = defineProps(['tableHead', 'items', 'columns', 'actions']);
+defineProps({
+    tableHead: {
+        type: Array,
+        required: true
+    },
+    items: {
+        type: Array,
+        required: true
+    },
+    columns: {
+        type: Array,
+        required: true
+    },
+    actions: {
+        type: Array,
+        required: false
+    },
+});
 
 function generateInternalLink(to, item) {
 
