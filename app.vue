@@ -7,6 +7,11 @@
 </template>
 
 <script setup>
+import axios from "axios";
+
+const config = useRuntimeConfig()
+axios.defaults.baseURL = config.public.baseURL;
+
 
 </script>
 

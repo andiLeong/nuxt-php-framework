@@ -13,8 +13,11 @@
                     <NuxtLink :to="{name:'users'}">users</NuxtLink>
                 </li>
                 <li class="text-stone-500 text-xl capitalize">
-                    <NuxtLink :to="{name:'users-create'}">create</NuxtLink>
+                    <NuxtLink :to="{name:'login'}">login</NuxtLink>
                 </li>
+<!--                <li class="text-stone-500 text-xl capitalize">-->
+<!--                    <NuxtLink :to="{name:'users-create'}">create</NuxtLink>-->
+<!--                </li>-->
 <!--                <li class="text-stone-500">-->
 <!--                    <NuxtLink :to="{name:'users-id' , params: {id:1}}">show user 1</NuxtLink>-->
 <!--                </li>-->
