@@ -15,6 +15,7 @@
                             id="email"
                             autocomplete="off"
                             placeholder="xxx@gmaio.com"
+                            @input="resetError"
                             v-model="email"
                         >
                     </div>
@@ -30,6 +31,7 @@
                             id="password"
                             autocomplete="off"
                             placeholder="xxxxxxxxx"
+                            @input="resetError"
                             v-model="password"
                         >
                     </div>
@@ -45,12 +47,24 @@
                     </button>
                 </div>
 
+                <div v-if="validationErrors.length">
+                    <p
+                        v-for="(err,index) in validationErrors"
+                        :key="index"
+                        class="text-sm italic text-red-500">
+                        {{ err }}
+                    </p>
+                </div>
+
                 <div v-if="errors">
-                    <p> {{ errors }}</p>
+                    <p class="text-sm italic text-red-500">
+                        {{ errors }}
+                    </p>
                 </div>
             </form>
         </div>
 
+        {{user}}
 
     </AppContainer>
 </template>
@@ -65,35 +79,46 @@ const password = ref(null)
 const loading = ref(false)
 const errors = ref(null)
 const validationErrors = ref([])
+let user = null
+
+const {setUser} = useAuth()
 
 function login() {
 
+    resetError()
     loading.value = true
-    // setTimeout( () => {
-    //     loading.value = false
-    // },2000)
 
-
-    axios.post('/login')
-        .then(function (response) {
-            // handle success
-            console.log(response);
+    axios.post('/login', {
+            password: password.value,
+            email: email.value,
         })
-        .catch(error => {
-            if (error.response) {
-                console.log(error.response.data);
-                console.log(error.response.status);
-                console.log(error.response.headers);
+        .then( ({data}) => {
+            console.log(data);
+            setUser(data)
+            window.location.pathname = '/'
+        })
+        .catch(({response}) => {
+            if (response) {
+                if (response.status === 400 && response.data.hasOwnProperty('errors')) {
+                    let error = response.data.errors;
+                    validationErrors.value = Object.keys(error).map(err => error[err][0]);
+                } else if (response.status === 403 && response.data.hasOwnProperty('message')) {
+                    errors.value = response.data.message
+                } else {
+                    errors.value = 'Something went wrong. please try again later!'
+                }
             }
-            console.log(error);
         })
         .finally(function () {
-            // always executed
             loading.value = false
         });
-
-
 }
+
+function resetError() {
+    validationErrors.value = []
+    errors.value = null
+}
+
 </script>
 
 <style scoped>

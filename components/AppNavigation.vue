@@ -12,18 +12,23 @@
                 <li class="text-stone-500 text-xl capitalize">
                     <NuxtLink :to="{name:'users'}">users</NuxtLink>
                 </li>
-                <li class="text-stone-500 text-xl capitalize">
-                    <NuxtLink :to="{name:'login'}">login</NuxtLink>
-                </li>
-<!--                <li class="text-stone-500 text-xl capitalize">-->
-<!--                    <NuxtLink :to="{name:'users-create'}">create</NuxtLink>-->
-<!--                </li>-->
-<!--                <li class="text-stone-500">-->
-<!--                    <NuxtLink :to="{name:'users-id' , params: {id:1}}">show user 1</NuxtLink>-->
-<!--                </li>-->
-<!--                <li class="text-stone-500">-->
-<!--                    <NuxtLink :to="{name:'users-edit-id' , params: {id:1}}">edit user 1</NuxtLink>-->
-<!--                </li>-->
+                <client-only>
+                    <li v-if="!isLoggedIn" class="text-stone-500 text-xl capitalize">
+                        <NuxtLink :to="{name:'login'}">login</NuxtLink>
+                    </li>
+                    <li v-if="isLoggedIn" class="text-stone-500 text-xl capitalize">
+                        <a href="#" @click.prevent="logout">logout</a>
+                    </li>
+                </client-only>
+                <!--                <li class="text-stone-500 text-xl capitalize">-->
+                <!--                    <NuxtLink :to="{name:'users-create'}">create</NuxtLink>-->
+                <!--                </li>-->
+                <!--                <li class="text-stone-500">-->
+                <!--                    <NuxtLink :to="{name:'users-id' , params: {id:1}}">show user 1</NuxtLink>-->
+                <!--                </li>-->
+                <!--                <li class="text-stone-500">-->
+                <!--                    <NuxtLink :to="{name:'users-edit-id' , params: {id:1}}">edit user 1</NuxtLink>-->
+                <!--                </li>-->
             </ul>
         </nav>
 
@@ -32,13 +37,28 @@
 
 <script setup>
 
+import {useAuth} from "../composables/useAuth";
+
+const {isLoggedIn,removeUser} = useAuth()
+
+
+if (process.client) {
+    console.log(isLoggedIn)
+}
+
+function logout() {
+    removeUser()
+    window.location.pathname = '/'
+}
+
 </script>
 
-<style >
+<style>
 
 a.router-link-active {
     font-weight: bold;
 }
+
 a.router-link-exact-active {
     color: #0ea5e9;
 }
