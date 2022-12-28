@@ -6,7 +6,7 @@
 
             <form @submit.prevent="login" class="space-y-6 my-5 px-5">
 
-                <div class="">
+                <div>
                     <label for="email" class="justify-self-start text-sm font-medium text-gray-700">Email</label>
                     <div class="mt-1">
                         <input
@@ -64,8 +64,6 @@
             </form>
         </div>
 
-        {{user}}
-
     </AppContainer>
 </template>
 
@@ -79,7 +77,6 @@ const password = ref(null)
 const loading = ref(false)
 const errors = ref(null)
 const validationErrors = ref([])
-let user = null
 
 const {setUser} = useAuth()
 

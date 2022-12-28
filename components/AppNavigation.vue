@@ -41,11 +41,6 @@ import {useAuth} from "../composables/useAuth";
 
 const {isLoggedIn,removeUser} = useAuth()
 
-
-if (process.client) {
-    console.log(isLoggedIn)
-}
-
 function logout() {
     removeUser()
     window.location.pathname = '/'
