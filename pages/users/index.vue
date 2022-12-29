@@ -28,6 +28,7 @@
                             :columns="columns"
                             :actions="actions"
                             @edit="goToEdit"
+                            @delete="destroy"
                         >
 
                         </AppTable>
@@ -51,6 +52,9 @@
 
 <script setup>
 
+import axios from "axios";
+
+const {getUser, isLoggedIn} = useAuth()
 const config = useRuntimeConfig()
 
 const route = useRoute();
@@ -71,6 +75,7 @@ const actions = [
     {name: 'view', type: 'link', to: '/users/{id}', external: false},
     // {name: 'view', type: 'link', to: '/users/{id}/post/{username}', external: false},
     {name: 'edit', type: 'button'},
+    {name: 'delete', type: 'button'},
 ];
 
 function goToEdit(item) {
@@ -96,6 +101,29 @@ function goingTo(targetPage) {
     page.value = targetPage
     router.push({query: {page: targetPage}})
 }
+
+function destroy(user) {
+
+    if (!isLoggedIn.value) {
+        router.push({name: 'login'})
+        return;
+    }
+
+    let {remember_token: token} = getUser()
+
+    axios.delete(`/user/${user.id}`, {
+        headers: {Authorization: `Bearer ${token}`}
+    })
+        .then(({data}) => {
+            console.log(data);
+            window.location.pathname = '/users'
+        })
+        .catch(({response}) => {
+            console.log(response)
+        });
+}
+
+
 </script>
 
 <style scoped>

@@ -123,7 +123,6 @@ definePageMeta({
 
 const {getUser} = useAuth()
 const config = useRuntimeConfig()
-const route = useRoute();
 const router = useRouter();
 const loading = ref(false)
 const user = ref({
