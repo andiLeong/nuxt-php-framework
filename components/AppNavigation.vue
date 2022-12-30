@@ -7,9 +7,6 @@
                     <NuxtLink :to="{name:'index'}">home</NuxtLink>
                 </li>
                 <li class="text-stone-500 text-xl capitalize">
-                    <NuxtLink to="/about">about</NuxtLink>
-                </li>
-                <li class="text-stone-500 text-xl capitalize">
                     <NuxtLink :to="{name:'users'}">users</NuxtLink>
                 </li>
                 <client-only>

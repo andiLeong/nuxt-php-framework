@@ -29,14 +29,10 @@
                             :actions="actions"
                             @edit="goToEdit"
                             @delete="destroy"
-                        >
-
-                        </AppTable>
-
+                        />
 
                         <div class="mt-10">
-                            <AppPaginator :items="users" @goToPage="goingTo">
-                            </AppPaginator>
+                            <AppPaginator :items="users" @goToPage="goingTo" />
                         </div>
                     </div>
                 </div>
@@ -86,16 +82,10 @@ function goToCreate() {
     router.push({name: 'users-create'})
 }
 
-// const { data: users ,error } = await useFetch('http://localhost:8080/user')
-// const {data: users , error} = useLazyFetch('http://localhost:8000/user');
-
 const {data: users, error} = useLazyFetch('user', {
     baseURL: config.public.baseURL,
     query: {page}
 })
-
-// console.log(error)
-// console.log(config.public.baseURL)
 
 function goingTo(targetPage) {
     page.value = targetPage
