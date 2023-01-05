@@ -121,6 +121,7 @@ definePageMeta({
 })
 
 
+const {redirectToLogin} = useHandleTokenExpired()
 const {getUser} = useAuth()
 const config = useRuntimeConfig()
 const router = useRouter();
@@ -155,6 +156,9 @@ function store() {
             router.push({name: 'users'});
         })
         .catch(({response}) => {
+
+            redirectToLogin(response.status)
+
             if (response && response.status === 400 && response.data.hasOwnProperty('errors')) {
                 let error = response.data.errors;
                 validationErrors.value = Object.keys(error).map(err => error[err][0]);

@@ -50,7 +50,8 @@
 
 import axios from "axios";
 
-const {getUser, isLoggedIn, removeUser} = useAuth()
+const {redirectToLogin} = useHandleTokenExpired()
+const {getUser, isLoggedIn} = useAuth()
 const config = useRuntimeConfig()
 
 const route = useRoute();
@@ -109,10 +110,7 @@ function destroy(user) {
             window.location.pathname = '/users'
         })
         .catch(({response}) => {
-            if (response.status === 401) {
-                removeUser()
-                router.push({name: 'login'})
-            }
+            redirectToLogin(response.status)
         });
 }
 

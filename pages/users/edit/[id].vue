@@ -104,6 +104,7 @@ definePageMeta({
 })
 
 
+const {redirectToLogin} = useHandleTokenExpired()
 const {getUser} = useAuth()
 const config = useRuntimeConfig()
 const route = useRoute();
@@ -129,10 +130,11 @@ function update() {
         {
             headers: {Authorization: `Bearer ${token}`}
         }).then(({data}) => {
-            console.log(data);
-            router.push({name: 'users'});
-        })
+        console.log(data);
+        router.push({name: 'users'});
+    })
         .catch(({response}) => {
+            redirectToLogin(response.status)
             if (response && response.status === 400 && response.data.hasOwnProperty('errors')) {
                 let error = response.data.errors;
                 validationErrors.value = Object.keys(error).map(err => error[err][0]);
