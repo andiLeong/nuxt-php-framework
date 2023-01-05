@@ -122,7 +122,7 @@ function resetError() {
 function update() {
 
     loading.value = true
-    let {remember_token: token} = getUser()
+    let {jwt_token: token} = getUser()
 
     axios.put(`/user/${route.params.id}`,
         user.value,

@@ -144,7 +144,7 @@ function resetError() {
 function store() {
 
     loading.value = true
-    let {remember_token: token} = getUser()
+    let {jwt_token: token} = getUser()
 
     axios.post(`/user`,
         user.value,

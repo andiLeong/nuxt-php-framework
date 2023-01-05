@@ -32,7 +32,7 @@
                         />
 
                         <div class="mt-10">
-                            <AppPaginator :items="users" @goToPage="goingTo" />
+                            <AppPaginator :items="users" @goToPage="goingTo"/>
                         </div>
                     </div>
                 </div>
@@ -50,7 +50,7 @@
 
 import axios from "axios";
 
-const {getUser, isLoggedIn} = useAuth()
+const {getUser, isLoggedIn, removeUser} = useAuth()
 const config = useRuntimeConfig()
 
 const route = useRoute();
@@ -99,7 +99,7 @@ function destroy(user) {
         return;
     }
 
-    let {remember_token: token} = getUser()
+    let {jwt_token: token} = getUser()
 
     axios.delete(`/user/${user.id}`, {
         headers: {Authorization: `Bearer ${token}`}
@@ -109,7 +109,10 @@ function destroy(user) {
             window.location.pathname = '/users'
         })
         .catch(({response}) => {
-            console.log(response)
+            if (response.status === 401) {
+                removeUser()
+                router.push({name: 'login'})
+            }
         });
 }
 
